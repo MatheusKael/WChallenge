@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import { MongooseError } from "mongoose";
 import cors from "cors";
+import "./services/DataToLogsFile";
 import { AppError } from "./errors/AppError";
 import "./database";
 import { routes } from "./routes/index";
