@@ -3,37 +3,38 @@ import { RequestModel } from "../database/schemas/RequestSchema";
 
 const calculatorRouter = Router();
 
-calculatorRouter.post("/sum", async (request: Request, response: Response) => {
-  const { a, b } = request.body;
+type OperationsObj = {
+  [key: string]: (a: number, b: number) => number;
+};
 
-  const sum = Number(a) + Number(b);
-
-  const request_information = await RequestModel.create({
-    client_ip: request.ip,
-    execution_time: Date.now(),
-    http_status_code: 200,
-  });
-
-  const request_id = request_information._id as string;
-
-  response.header("request_id", request_id);
-
-  return response.status(200).json({ sum });
-});
+// TODO => Add documentation to explain each possible operation
 
 calculatorRouter.post(
-  "/multi",
+  "/:operation",
   async (request: Request, response: Response) => {
+    const { operation } = request.params;
     const { a, b } = request.body;
 
-    const multi = Number(a) * Number(b);
+    const operationsObj: OperationsObj = {
+      sum: (a: number, b: number) => a + b,
+      sub: (a: number, b: number) => a - b,
+      mul: (a: number, b: number) => a * b,
+      div: (a: number, b: number) => a / b,
+    };
 
-    await RequestModel.create({
+    const result = operationsObj[operation](a, b);
+
+    const request_information = await RequestModel.create({
       client_ip: request.ip,
       execution_time: Date.now(),
       http_status_code: 200,
     });
-    return response.status(200).json({ multiplication: multi });
+
+    const request_id = request_information._id as string;
+
+    response.header("request_id", request_id);
+
+    return response.status(200).json({ result });
   }
 );
 
