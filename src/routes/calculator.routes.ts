@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { RequestModel } from "../database/schemas/RequestSchema";
-
+import { getQueryLogsFilePath } from "../services/QueriesToLogsFile";
 const calculatorRouter = Router();
 
 type OperationsObj = {
@@ -30,6 +30,11 @@ calculatorRouter.post(
       http_status_code: 200,
     });
 
+    getQueryLogsFilePath({
+      operation,
+      result: result.toString(),
+      statement: "create",
+    });
     const request_id = request_information._id as string;
 
     response.header("request_id", request_id);
