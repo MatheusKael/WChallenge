@@ -1,0 +1,5 @@
+{
+  "DATA_TO_LOGS_LOOP_TIME_MS": 1000,
+  "DATA_TO_LOGS_ENABLE": false,
+  "QUERIES_LOGS_FILE_ENABLE": false
+}
