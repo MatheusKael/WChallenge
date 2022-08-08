@@ -12,12 +12,14 @@ const RequestSchema = new mongoose.Schema<IRequest>(
 
 const RequestModel = mongoose.model<IRequest>("Request", RequestSchema);
 
-RequestModel.createCollection()
-  .then(() => {
+const collection = RequestModel.createCollection()
+  .then((collection) => {
     console.log("Request collection created");
+
+    return collection;
   })
   .catch((err) => {
     console.error(err);
   });
 
-export { RequestModel };
+export { RequestModel, collection };

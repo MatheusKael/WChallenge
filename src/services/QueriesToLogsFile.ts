@@ -1,39 +1,29 @@
-import { EventEmitter } from "node:events";
 import fs from "node:fs";
-import path from "node:path";
-import { parseAsync } from "json2csv";
+import { collection } from "../database/schemas/RequestSchema";
 import { AppError } from "../errors/AppError";
-import { RequestModel } from "../database/schemas/RequestSchema";
+import { QUERY_LOGS_FILE_PATH } from "../conf/query_logs";
+import { QUERIES_LOGS_FILE_ENABLE } from "../../serverconfig.json";
 
-const QUERY_LOGS_FILE_PATH = path.resolve(__dirname, "..", "..", "logs");
+async function queryLogsFilePath() {
+  const collectionResolved = await collection;
 
-// TODO => Query logs file use should be configurable!
-// TODO => Same Queries should not be overwritten, so they to be stored in a queue and then written to the file
+  if (!collectionResolved) {
+    throw new AppError("Collection not found", 500);
+  }
 
-type Query = {
-  statement: string;
-  operation: string;
-  result: string;
-};
+  const changeStream = collectionResolved.watch();
 
-export async function getQueryLogsFilePath(query: Query) {
-  const fields = ["statement", "operation", "result"];
-  const csv = await parseAsync(query, { fields });
-
-  const readableCSV = fs.createReadStream(
-    `${QUERY_LOGS_FILE_PATH}/query_logs.csv`
-  );
-  readableCSV.on("readable", () => {
-    console.log("readable", readableCSV.read());
-  });
-  fs.createWriteStream(`${QUERY_LOGS_FILE_PATH}/query_logs.csv`).write(
-    csv,
-    (err) => {
-      if (err) {
-        throw new AppError(err.message, 500);
+  changeStream.on("change", (change) => {
+    fs.appendFile(
+      QUERY_LOGS_FILE_PATH,
+      `${change.operationType} at ${JSON.stringify(change.ns)}\n`,
+      (err) => {
+        if (err) {
+          throw new AppError(err.message, 500);
+        }
       }
-
-      console.log("Logs file created!");
-    }
-  );
+    );
+  });
 }
+
+QUERIES_LOGS_FILE_ENABLE && queryLogsFilePath();

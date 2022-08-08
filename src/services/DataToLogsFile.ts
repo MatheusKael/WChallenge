@@ -6,7 +6,7 @@ import { AppError } from "../errors/AppError";
 import {
   DATA_TO_LOGS_LOOP_TIME_MS,
   DATA_TO_LOGS_ENABLE,
-} from "../../server.json";
+} from "../../serverconfig.json";
 
 // TODO => Hot swapping
 
