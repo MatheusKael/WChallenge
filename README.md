@@ -5,10 +5,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/MatheusKael/WChallenge">
-    <img src="images/Logo.png" alt="Logo" width="240" height="74">
-  </a>
-
+  
   <h3 align="center">WChallenge</h3>
 
   <p align="center">
@@ -41,8 +38,6 @@
 <!-- - [Acknowledgements](#acknowledgements) -->
 
 ## About The Project
-
-[![Happy Homepage][product-screenshot]]()
 
 This project was requested for a job opportunity at WIT.
 
@@ -140,7 +135,7 @@ Project Link: [https://github.com/MatheusKael/WChallenge](https://github.com/Mat
 [issues-shield]: https://img.shields.io/github/issues/MatheusKael/WChallenge.svg?style=flat-square
 [issues-url]: https://github.com/MatheusKael/WChallenge/issues
 [license-shield]: https://img.shields.io/github/license/MatheusKael/WChallenge.svg?style=flat-square
-[license-url]: https://github.com/github_username/WChallenge/blob/master/LICENSE.txt
+[license-url]: https://github.com/MatheusKael/WChallenge/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/matheuskael/
 [product-screenshot]: images/screenshot.png
